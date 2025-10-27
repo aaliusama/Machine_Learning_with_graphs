@@ -17,7 +17,7 @@ All input files used by the notebooks can be found in the `data/` directory.
 
 **Dataset:**
 
-- `data/europe.net` – a Pajek file encoding the connectivity between 1 039 cities in Europe and 1 305 undirected road segments.
+- `data/europe.net` – a Pajek file encoding the connectivity between 1039 cities in Europe and 1305 undirected road segments.
 
 **Objective:**  Assess the resilience of the European road network under targeted attacks.  The approach is to compute betweenness centrality for all nodes (cities) and iteratively remove the most central ones.  After each removal the size of the largest connected component (LCC) is recomputed.
 
@@ -26,21 +26,21 @@ All input files used by the notebooks can be found in the `data/` directory.
 1. Read the graph from the Pajek file and convert it to a simple undirected NetworkX graph.
 2. Compute the betweenness centrality for all nodes.
 3. Repeatedly remove the node with the highest betweenness centrality (15 times in total).
-4. Track the size of the LCC before and after removals and compute the fraction of the remaining nodes it contains.
+4. Track the size of the LCC before and after removals and compute the percentage of the remaining nodes it contains.
 
 **Key results:**
 
-- Initially all 1 039 cities form a single connected component (100 % connectivity).
+- Initially all 1039 cities form a single connected component (100 % connectivity).
 - After greedily removing the 15 most central cities (`Brest`, `Warsaw`, `Saint Petersburg`, `Kiev`, `Niš`, `Gdańsk`, `Mukachevo`, `Chişinău`, `Trieste`, `Vinnytsia`, `Budapest`, `Zagreb`, `Oradea`, `Kherson` and `Suceava`) the LCC still contains 442 cities.
 - This final component represents **43.2 %** of the cities that remain in the graph, illustrating that the network retains a surprisingly large core even under targeted disruption.
 
-The notebook `European_Transport_Robustness.ipynb` visualises these steps and can be used to investigate alternative removal strategies or to compute different centrality measures.
+The notebook `European_Transport_Robustness.ipynb` contains these steps and can be used to investigate alternative removal strategies or to compute different centrality measures.
 
 ## Film Recommendations via Personalised PageRank
 
 **Dataset:**
 
-- `data/movies_graph.net` – a network of 6 577 nodes and 16 842 edges representing movies and attribute “mode” nodes.  Movies are connected to modes corresponding to genres, actors, directors, languages, etc.
+- `data/movies_graph.net` – a network of 6577 nodes and 16842 edges representing movies (1337) and attribute “mode” nodes.  Movies are connected to modes corresponding to genres, actors, directors, languages, etc.
 
 **Objective:**  Given a query (for example a specific actor or genre) recommend films that are strongly connected in the graph.  This task is framed as personalised PageRank: starting from the query nodes a random walker distributes probability mass through the network and nodes with higher PageRank are deemed more relevant.
 
@@ -63,16 +63,17 @@ These results show that personalised PageRank can capture nuanced relationships 
 
 **Dataset:**
 
-- `data/aps_citations.net` – a citation network of papers published by the American Physical Society containing **56 473** nodes and **200 353** edges.
+- `data/aps_citations.net` – a citation network of papers published by the American Physical Society containing **56473** nodes and **200353** edges.
 - Papers are annotated with their Digital Object Identifier (DOI), year and the journal (one of nine Physical Review journals).
 - The repository also contains precomputed files produced by the notebook: 128‑dimensional node embeddings (`aps_embeddings.pkl`), metadata (`aps_metadata.pkl`), a train/test split (`aps_train_test_split.pkl`) and the classification results (`aps_classification_results.pkl`).
+- Note: It may take several hours to generate embeddings from scratch. You can download it from: https://drive.google.com/file/d/1HN2u04vzaoDllj8JFqRShLZEoQiIZG5k/view?usp=sharing
 
 **Objective:**  Predict the journal of papers published in 2013 using only the citation network and embeddings learned from prior years (2010–2012).
 
 **Methodology:**
 
 1. Parse the Pajek file to build an undirected citation graph and extract attributes (year, journal, DOI) for each paper.
-2. Split the data chronologically: papers from 2010–2012 form the training set (41 810 nodes) and those from 2013 form the test set (14 663 nodes).
+2. Split the data chronologically: papers from 2010–2012 form the training set (41810 nodes) and those from 2013 form the test set (14663 nodes).
 3. Train a node2vec model to learn 128‑dimensional embeddings from the full unlabeled graph.
 4. Train three classifiers on the training embeddings: logistic regression (tuning regularisation strength), random forest and linear SVM.
 5. Evaluate accuracy, macro–F1 and (for logistic regression) top‑3 accuracy on the 2013 test set.
@@ -85,13 +86,13 @@ These results show that personalised PageRank can capture nuanced relationships 
 | **Random forest** | **0.72** | **0.55** | – |
 | **Linear SVM** | **0.70** | **0.52** | – |
 
-The random forest classifier achieves the highest accuracy (≈ 72 %) and macro–F1 (≈ 0.55) on the unseen 2013 papers.  Although logistic regression performs worse overall, its top‑3 accuracy exceeds 91 %, meaning that the true journal is usually among the top three predicted labels.  The notebook also prints a detailed classification report per journal.
+The random forest classifier achieves the highest accuracy (≈ 72 %) and macro–F1 (≈ 0.55) on the unseen 2013 papers.  Although logistic regression performs worse overall, its top‑3 accuracy exceeds 91 %, meaning that the true journal is usually among the top three predicted labels. Check notebook for a detailed classification report per journal.
 
 ## Link Prediction in the Southern Women Network
 
 **Dataset:**
 
-- `data/southern_women.net` – a small bipartite graph describing attendance of 18 women (type 1) at 14 events (type 2/3) in the American South in the 1930s.  The network contains 32 nodes and 89 edges.
+- `data/southern_women.net` – a small bipartite graph describing attendance of 18 women (type 1/2) at 14 events (type 3).  The network contains 32 nodes and 89 edges.
 
 **Objective:**  Predict which woman–event pairs that are not currently observed would be most likely to occur, by learning node embeddings and training a binary classifier on pairs of nodes.
 
@@ -117,7 +118,7 @@ The random forest consistently outperforms logistic regression, achieving an ave
 To explore the analyses yourself:
 
 1. Clone or download this repository and change into its directory.
-2. Create a Python environment with the required libraries.  At minimum you will need [`networkx`](https://networkx.org/), [`numpy`](https://numpy.org/), [`scikit‑learn`](https://scikit-learn.org/), and [`node2vec`](https://github.com/eliorc/node2vec).  Installing `matplotlib` and `tqdm` is recommended for visualisation and progress bars.
+2. Create a Python environment with the required libraries.  At minimum you will need [`networkx`](https://networkx.org/), [`numpy`](https://numpy.org/), [`scikit‑learn`](https://scikit-learn.org/), and [`node2vec`](https://github.com/eliorc/node2vec). 
 3. Start a Jupyter notebook server (`jupyter notebook`) and open any of the `.ipynb` files.
 4. Ensure that the working directory is the repository root so that the notebooks can load the files in the `data/` directory.
 

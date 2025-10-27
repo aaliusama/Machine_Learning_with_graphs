@@ -97,7 +97,7 @@ The random forest classifier achieves the highest accuracy (≈ 72 %) and ma
 
 **Methodology:**
 
-1. Read the graph, identify women (type 1) and events (type 2/3) and compute positive examples (existing edges).
+1. Read the graph, identify women (type 1/2) and events (type 3) and compute positive examples (existing edges).
 2. Generate an equal number of negative examples by sampling unconnected woman–event pairs.
 3. Split the edges into a training set (≈ 160 edges) and a test set (≈ 36 edges), ensuring both positive and negative samples are represented.
 4. For each pair, create a feature vector by concatenating the node2vec embeddings of the two nodes (embedding dimension 32, so features have length 64).
